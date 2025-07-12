@@ -1,0 +1,15 @@
+version: "3.8" # YAMLファイルのバージョン指定（推奨）
+
+services: # ここに複数のコンテナ（サービス）を定義していく
+  frontend: # サービスの名前（任意）
+    build:
+      context: . # Dockerfileがあるディレクトリのパス
+      dockerfile: Dockerfile # 使用するDockerfileの名前
+    ports:
+      - "3000:3000" # "ホストPCのポート:コンテナのポート"
+    # volumes:
+    #   # ホストのファイルをコンテナに同期（ホットリロードのため）
+    #   # ただし、node_modulesは同期しないようにする
+    #   - .:/app
+    #   - /app/node_modules
+    container_name: docker-tutorial-fe # コンテナに名前を付ける

@@ -1,0 +1,17 @@
+# 依存関係
+node_modules
+
+# ビルド成果物
+.next
+
+# Docker関連
+Dockerfile
+.dockerignore
+
+# Git関連
+.git
+.gitignore
+
+# その他
+npm-debug.log
+README.md
