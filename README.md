@@ -2,16 +2,12 @@
 
 このプロジェクトは、Dockerでコンテナ化されたNext.jsのTodoアプリケーションです。
 
----
-
 ## 必須環境 (Prerequisites)
 
 このアプリケーションを実行するには、お使いのマシンに以下のソフトウェアがインストールされている必要があります。
 
 - [Docker](https://www.docker.com/get-started)
 - [Docker Compose](https://docs.docker.com/compose/install/) (Docker Desktopには通常含まれています)
-
----
 
 ## 起動方法 (Usage)
 
@@ -42,8 +38,6 @@ docker compose up --build
 docker compose up --build -d
 ```
 
----
-
 ## コンテナの停止方法
 
 コンテナを停止するには、以下のコマンドを実行します。
@@ -56,15 +50,11 @@ docker compose up --build -d
 docker compose down
 ```
 
----
-
 ## プロジェクト構成
 
 - **`Dockerfile`**: Next.jsアプリケーションをビルドし、実行するための本番環境イメージを作成するマルチステージビルドファイルです。
 - **`docker-compose.yml`**: `frontend`サービスを定義し、コンテナのビルド方法やポートマッピングを管理します。
 - **`package.json`**: プロジェクトの依存関係とスクリプトが定義されています。
-
----
 
 ## (参考) ローカルでの開発
 
