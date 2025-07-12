@@ -1,36 +1,82 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Docker Tutorial - Next.js Todo App
 
-## Getting Started
+このプロジェクトは、Dockerでコンテナ化されたNext.jsのTodoアプリケーションです。
 
-First, run the development server:
+---
+
+## 必須環境 (Prerequisites)
+
+このアプリケーションを実行するには、お使いのマシンに以下のソフトウェアがインストールされている必要があります。
+
+- [Docker](https://www.docker.com/get-started)
+- [Docker Compose](https://docs.docker.com/compose/install/) (Docker Desktopには通常含まれています)
+
+---
+
+## 起動方法 (Usage)
+
+このプロジェクトは、Docker Composeを使用して簡単に起動できます。
+
+### 1. リポジトリのクローン
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/siakas/docker-tutorial-fe.git
+cd docker-tutorial-fe
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. コンテナのビルドと起動
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+以下のコマンドを実行して、Dockerイメージをビルドし、コンテナを起動します。
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+docker compose up --build
+```
 
-## Learn More
+このコマンドは、`Dockerfile`を基にNext.jsアプリケーションのプロダクションビルドを作成し、最適化されたサーバーを起動します。
 
-To learn more about Next.js, take a look at the following resources:
+起動後、ブラウザで **[http://localhost:3000](http://localhost:3000)** にアクセスすると、アプリケーションが表示されます。
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+コンテナをバックグラウンドで起動したい場合は、`-d`フラグを追加してください。
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+docker compose up --build -d
+```
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## コンテナの停止方法
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+コンテナを停止するには、以下のコマンドを実行します。
+
+```bash
+# フォアグラウンドで起動した場合
+# ターミナルで Ctrl + C を押す
+
+# バックグラウンドで起動した場合
+docker compose down
+```
+
+---
+
+## プロジェクト構成
+
+- **`Dockerfile`**: Next.jsアプリケーションをビルドし、実行するための本番環境イメージを作成するマルチステージビルドファイルです。
+- **`docker-compose.yml`**: `frontend`サービスを定義し、コンテナのビルド方法やポートマッピングを管理します。
+- **`package.json`**: プロジェクトの依存関係とスクリプトが定義されています。
+
+---
+
+## (参考) ローカルでの開発
+
+Dockerを使わずに、ローカルのNode.js環境で開発を行うことも可能です。
+
+1.  **依存関係のインストール**
+    ```bash
+    # pnpmを使用する場合
+    pnpm install
+    ```
+2.  **開発サーバーの起動**
+    ```bash
+    pnpm dev
+    ```
+    これにより、ホットリロードが有効な開発サーバーが起動します。
