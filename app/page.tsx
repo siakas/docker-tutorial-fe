@@ -4,13 +4,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { useTodoStore } from "@/stores/TodoStore";
+import { Trash2 } from "lucide-react";
 import { useState } from "react";
 
 export default function Home() {
   const [newTodoText, setNewTodoText] = useState("");
 
   const todos = useTodoStore((state) => state.todos);
-  const setInitialTodos = useTodoStore((state) => state.setInitialTodos);
   const addTodo = useTodoStore((state) => state.addTodo);
   const toggleTodo = useTodoStore((state) => state.toggleTodo);
   const deleteTodo = useTodoStore((state) => state.deleteTodo);
@@ -56,7 +56,13 @@ export default function Home() {
               >
                 {todo.text}
               </button>
-              <Button onClick={() => deleteTodo(todo.id)}>削除</Button>
+              <Button
+                onClick={() => deleteTodo(todo.id)}
+                size="icon"
+                variant="ghost"
+              >
+                <Trash2 aria-label="削除" />
+              </Button>
             </li>
           ))}
         </ul>

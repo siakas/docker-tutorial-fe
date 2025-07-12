@@ -22,8 +22,8 @@ export const useTodoStore = create<TodoStore>()(
           set(
             (state) => ({
               todos: [
-                ...state.todos,
                 { id: uuidv4(), text, isCompleted: false },
+                ...state.todos,
               ],
             }),
             undefined,
