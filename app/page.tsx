@@ -1,26 +1,28 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { cn } from "@/lib/utils";
+import { ErrorMessage } from "@/components/ErrorMessage";
+import { TodoForm } from "@/components/TodoForm";
+import { TodoList } from "@/components/TodoList";
+import { useTodoActions } from "@/hooks/useTodoActions";
 import { useTodoStore } from "@/stores/TodoStore";
-import { Trash2 } from "lucide-react";
-import { useState } from "react";
+import { useEffect } from "react";
 
 export default function Home() {
-  const [newTodoText, setNewTodoText] = useState("");
-
   const todos = useTodoStore((state) => state.todos);
-  const addTodo = useTodoStore((state) => state.addTodo);
-  const toggleTodo = useTodoStore((state) => state.toggleTodo);
-  const deleteTodo = useTodoStore((state) => state.deleteTodo);
+  const error = useTodoStore((state) => state.error);
+  const clearError = useTodoStore((state) => state.clearError);
+  const { handleAddTodo, handleToggleTodo, handleDeleteTodo } =
+    useTodoActions();
 
-  const handleAddTodo = () => {
-    if (newTodoText.trim()) {
-      addTodo(newTodoText.trim());
-      setNewTodoText("");
+  // エラーが発生した場合、3秒後に自動でクリア
+  useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => {
+        clearError();
+      }, 3000);
+      return () => clearTimeout(timer);
     }
-  };
+  }, [error, clearError]);
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100">
@@ -29,43 +31,22 @@ export default function Home() {
           Todo App
         </h1>
 
-        <div className="flex space-x-2">
-          <Input
-            value={newTodoText}
-            onChange={(e) => setNewTodoText(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && handleAddTodo()}
-            placeholder="新しいTodoを入力"
-          />
-          <Button onClick={handleAddTodo}>追加</Button>
-        </div>
+        {error && <ErrorMessage message={error} onClose={clearError} />}
 
-        <ul className="space-y-3">
-          {todos.map((todo) => (
-            <li
-              key={todo.id}
-              className="flex items-center justify-between rounded-md bg-gray-50 p-3 shadow-sm"
-            >
-              <button
-                onClick={() => toggleTodo(todo.id)}
-                className={cn(
-                  "cursor-pointer",
-                  todo.isCompleted
-                    ? "text-gray-400 line-through"
-                    : "text-gray-800",
-                )}
-              >
-                {todo.text}
-              </button>
-              <Button
-                onClick={() => deleteTodo(todo.id)}
-                size="icon"
-                variant="ghost"
-              >
-                <Trash2 aria-label="削除" />
-              </Button>
-            </li>
-          ))}
-        </ul>
+        <TodoForm onAddTodo={handleAddTodo} />
+
+        <TodoList
+          todos={todos}
+          onToggle={handleToggleTodo}
+          onDelete={handleDeleteTodo}
+        />
+
+        {todos.length > 0 && (
+          <div className="text-center text-sm text-gray-500">
+            {todos.filter((todo) => todo.isCompleted).length} / {todos.length}{" "}
+            完了
+          </div>
+        )}
       </div>
     </div>
   );
