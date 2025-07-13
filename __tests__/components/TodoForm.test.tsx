@@ -1,8 +1,9 @@
+import { render, screen, fireEvent } from "@testing-library/react";
+import { describe, it, expect, beforeEach, vi } from "vitest";
 import { TodoForm } from "@/components/TodoForm";
-import { fireEvent, render, screen } from "@testing-library/react";
 
 describe("TodoForm", () => {
-  const mockOnAddTodo = jest.fn();
+  const mockOnAddTodo = vi.fn();
 
   beforeEach(() => {
     mockOnAddTodo.mockClear();
@@ -13,7 +14,7 @@ describe("TodoForm", () => {
 
     expect(screen.getByPlaceholderText("新しいTodoを入力")).toBeInTheDocument();
     expect(
-      screen.getByRole("button", { name: "Todoを追加" }),
+      screen.getByRole("button", { name: "Todoを追加" })
     ).toBeInTheDocument();
   });
 
